@@ -570,3 +570,9 @@
 /venv/Lib/site-packages/pip/_vendor/pep517/wrappers.py
 /venv/Lib/site-packages/pip/_vendor/webencodings/x_user_defined.py
 /venv/Lib/site-packages/pip/_internal/network/xmlrpc.py
+/model_test/model_test/__init__.py
+/model_test/model_test/asgi.py
+/model_test/manage.py
+/model_test/model_test/settings.py
+/model_test/model_test/urls.py
+/model_test/model_test/wsgi.py
