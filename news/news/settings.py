@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'news',
     'accounts',
-    'fpages'
+    'fpages',
+    'simp_dungeon'
 ]
 
 SITE_ID = 1
