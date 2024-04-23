@@ -1,0 +1,136 @@
+`/1)py manage.py shell
+
+2) from news import *
+
+3)from simp_dungeon.models import *
+
+# Создание двух пользователей
+4)  User.objects.create_user(' waderer')
+      User.objects.create_user(' gigachad')
+  
+5)   Получаем пользователей 'wenderer' и 'gigachad'
+    user_waderer = User.objects.get(username='waderer')
+    user_gigachad = User.objects.get(username=' gigachad')
+
+# Создаем объекты модели Author и связываем их с пользователями
+    author_waderer = Author.objects.create(user=user_waderer)
+    author_gigachad = Author.objects.create(user=user_gigachad)
+
+# Добавить 4 категории в модель Category
+6)category_1 = Category(Title = 'В мире')  
+     category_1.save()
+
+    category_2 = Category(Title = 'Наука')  
+     category_2.save()
+
+    category_3 = Category(Title = 'Спорт')  
+     category_3.save()
+    
+    category_4 = Category(Title = 'Искусство')  
+     category_4.save()
+
+#Создайть 2 объекта статьи и 1 объект новости, установите им соответствующие значения полей и сохранить их в базе данных:
+7)   
+    article_1 = Post.objects.create(author=author_waderer, type='AR', title='Искусственный Интелект уничтожит нас?', text='К сожалению это скорее всего так. У нас есть одна попытка создания AI- который будет полоностью "прописан". Что это такое и зачем? Под "прописан" имеется в ввиду что у него небудет возможности найти лазейки или взломать всех и вся.')
+
+    article_2 = Post.objects.create(author=author_waderer, type='AR',     title='Человечество обреченно?', text='Разные эксперты, разных областей говорят что это скорее всего так и будет. Я думаю что это логично, существует множенство разных апакалипсисов и не только. Не стоит печалиться в любой случае будет весело. Хотя и не будет того кто так скажет.')
+    
+    news_1 = Post.objects.create(author=author_gigachad, type='NW', title='Человек превратился в Био - Мутанта?!', text='Юноша настолько растроился выходом очередной донатной игры от его любимого издателя.Что не заметил как его бросила девушка. И от горя ушёл в лес. Спустя пять лет от туда вышел горилоподобный светоносный киборг убийца качок!')
+
+#Добавление категорий
+8) article_1.category.add(category_1, category_2)
+    article_2.category.add(category_1, category_2)
+    news_1.category.add(category_3, category_4)
+
+#Создание комментариев
+9)
+# Для начала создать 3 независимого диваного комментатора
+    user_1 = User.objects.create(username='Мимокрокодил')
+
+    comment_1 = Comment.objects.create(post=article_1, user=user_1, text='Что-то как-то мало информации. И ничиго по делу.')
+    comment_2 = Comment.objects.create(post=article_2, user=user_1, text='У тебя есть вообще что-то весёлое или хотя бы понятное?')
+    comment_3 = Comment.objects.create(post=news_1, user=user_1, text='Да ну, у меня мышц больше чем у него.')
+    comment_4 = Comment.objects.create(post=news_1, user=user_1, text='Жаба')
+    comment_5 = Comment.objects.create(post=article_1, user=user_waderer, text='Это тестововая статья')
+    comment_6 = Comment.objects.create(post=news_1, user=user_gigachad, text='А это нет.Это правда')
+
+# Приминение рейтинга к новости и комментарию
+10)
+article_1.like()
+article_2.like()
+post_1.dislike()
+
+comment_1.like()
+comment_2.like()
+comment_3.like()
+comment_4.dislike()
+comment_4.dislike()
+comment_5.like()
+comment_6.dislike()
+
+# Обновить рейтинги пользователей
+11)
+    author_waderer.update_rating()
+    author_gigachad.update_rating()
+# Получаем лучшего пользователя
+"""
+Объяснение.(Для себя)
+Элемент '-author__rating' является частью метода order_by() модели User. Он используется для определения порядка сортировки результатов запроса.
+
+В данном случае, 'author' - это поле модели User, которое является связью с моделью Author через отношение OneToOneField. Использование двух нижних подчёркивания (__) позволяет обращаться к полям связанной модели.
+
+Таким образом, 'authorrating' означает, что мы обращаемся к полю rating модели Author, которая связана с моделью User. Знак минус - перед полем authorrating указывает, что мы хотим отсортировать результаты в порядке убывания рейтинга.
+
+Таким образом, использование '-author__rating' позволяет получить пользователя с наибольшим рейтингом, так как результаты будут отсортированы по убыванию рейтинга.
+"""
+    best_user =User.objects.order_by('-author__rating').first()
+# Вывести
+    print(best_user.username)
+# Вывести рейтинг лучшего
+     print(best_user.author.rating)
+
+# Вывод даты добавления, username автора, рейтинга, заголовка и превью лучшей статьи на основе лайков/дислайков
+12)
+    # Получение лучшей статьи на основе лайков и дислайков 1) Это импортировать в shell Sum
+
+    from django.db.models import Sum
+
+    best_post = Post.objects.annotate(likes_count=Sum('comment__rating')).order_by('-likes_count').first()
+
+# Вывод необходимых данных
+    date_added = best_post.post_time
+    author_username = best_post.author.user.username
+    rating = best_post.rating
+    title = best_post.title
+    preview = best_post.preview()
+
+    print('Дата добавления:', date_added)
+    print('Username автора:', author_username)
+    print('Рейтинг статьи:', rating)
+    print('Заголовок статьи:', title)
+    print('Превью статьи:', preview)
+
+"""
+Как это работает?(Для себя)
+метод annotate() для добавления аннотации likes_count к каждому посту, основываясь на рейтинге комментариев. Затем сортируем посты по убыванию likes_count и выбираем первый пост с помощью метода first().
+
+Выводим необходимые данные, такие как дата добавления, username автора, рейтинг статьи, заголовок и превью статьи.
+"""
+
+#Получение всех комментариев этой статьи
+13) Вывести все комментарии (дата, пользователь,рейтинг, текст)
+
+# метод filter() для получения всех комментариев, относящихся к лучшей статье (best_post).
+
+>>>comments = Comment.objects.filter(post=best_post)
+
+for comment in comments:
+    print(f"Дата: {comment.comment_time}")
+    print(f"Пользователь: {comment.user.username}")
+    print(f"Рейтинг: {comment.rating}")
+    print(f"Текст: {comment.text}")
+    print()
+
+>>> exit()
+
+
