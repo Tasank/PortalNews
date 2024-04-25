@@ -11,7 +11,7 @@ class ProductsList(ListView):
     ordering = 'name'
     # Указываем имя шаблона, в котором будут все инструкции о том,
     # как именно пользователю должны быть показаны наши объекты
-    template_name = 'products.html'
+    template_name = 'flatpages/products.html'
     # Это имя списка, в котором будут лежать все объекты.
     # Его надо указать, чтобы обратиться к списку объектов в html-шаблоне.
     context_object_name = 'products'
