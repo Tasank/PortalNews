@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.core.validators import MinValueValidator
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -54,6 +55,7 @@ class Post(models.Model):
     # Метод просмотр, который возвращает первые 124 символа текста статьи
     def preview(self):
         return f"{self.text[0:124]}..."
+
 
 # Добавляем on-delete, чтобы при удалении объекта, удалялись все связанные с ними
 # данные
