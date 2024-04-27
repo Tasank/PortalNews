@@ -8,5 +8,6 @@ News
 
 <!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
 {% block content %}
-<h1>{{ the_news }}</h1>
+<h1>{{ the_news.title }}</h1>
+<p>{{ the_news.text }}</p>
 {% endblock content %}

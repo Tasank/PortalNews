@@ -56,6 +56,9 @@ class Post(models.Model):
     def preview(self):
         return f"{self.text[0:124]}..."
 
+    def __str__(self):
+        return f'{self.title.title()}: {self.text[:20]}'
+
 
 # Добавляем on-delete, чтобы при удалении объекта, удалялись все связанные с ними
 # данные

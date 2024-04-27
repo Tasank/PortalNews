@@ -9,4 +9,8 @@ News
 <!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
 {% block content %}
 <h1>{{ news }}</h1>
+{% for post in news %}
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.text }}</p>
+{% endfor %}
 {% endblock content %}
