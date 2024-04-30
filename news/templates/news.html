@@ -23,9 +23,10 @@ News
            </tr> <!-- Не забываем закрыть HTML-тег строки -->
            {% for post in news %}
            <tr>
-               <td>{{ post.title }}</td>
+               <!-- Цензура названия и превью-->
+               <td>{{ post.title|censor }}</td>
                <td>{{ post.post_time|date:"d/m/Y" }}</td>
-               <td>{{ product.text|truncatechars:20 }}</td>
+               <td>{{ product.text|truncatechars:20|censor }}</td>
            </tr>
            {% endfor %}
        </table> <!-- ... и таблицы -->
