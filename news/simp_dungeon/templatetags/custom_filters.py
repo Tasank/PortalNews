@@ -10,11 +10,14 @@ def censor(value):
     if isinstance(value, str):
         lemmas = mystem.lemmatize(value)
         censored_value = []
+        ban_words = ['редиска']
         for lemma in lemmas:
-            if 'редиска' in lemma.lower():
-                censored_value.append("*" * len(lemma))
-            else:
-                censored_value.append(lemma)
+            for ban_word in ban_words:
+                if ban_word in lemma.lower():
+                    censored_value.append("*" * len(lemma))
+                    break
+                else:
+                    censored_value.append(lemma)
         return "".join(censored_value)
     else:
         return value
