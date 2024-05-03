@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'simpleapp',
     'accounts',
     'fpages',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
