@@ -4,6 +4,8 @@ from django.views.generic import ListView, DetailView
 from .models import Product
 from datetime import datetime
 from .filters import ProductFilter
+from django.shortcuts import render, redirect
+from .forms import ProductForm
 
 
 class ProductsList(ListView):
@@ -55,3 +57,14 @@ class ProductDetail(DetailView):
     template_name = 'product.html'
     # Название объекта, в котором будет выбранный пользователем продукт
     context_object_name = 'product'
+    
+def create_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        # Проверка на ошибки введёных данных
+        if form.is_valid():
+            form.save()
+            return redirect('/products/')
+
+    form = ProductForm()
+    return render(request, 'product_edit.html',{'form': form})

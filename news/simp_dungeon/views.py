@@ -4,6 +4,8 @@ from django.views.generic import ListView, DetailView
 from .models import Post
 from datetime import datetime
 from .filters import PostFilter
+from django.shortcuts import render, redirect
+from .forms import PostForm
 
 
 class PostList(ListView):
@@ -38,5 +40,17 @@ class PostDetail(DetailView):
     template_name = 'the_news.html'
     # Название объекта, в котором будет выбранный пользователем продукт
     context_object_name = 'the_news'
+
+def create_post(request):
+    form = PostForm()
+
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        # Проверка на ошибки введёных данных
+        if form.is_valid():
+            form.save()
+            return redirect('/news/')
+
+    return render(request, 'post_edit.html',{'form': form})
 
 

@@ -1,6 +1,6 @@
 from django.urls import path
 # Импортируем созданное нами представление
-from .views import PostList, PostDetail
+from .views import PostList, PostDetail, create_post
 
 
 urlpatterns = [
@@ -14,4 +14,5 @@ urlpatterns = [
     # pk — это первичный ключ товара, который будет выводиться у нас в шаблон
    # int — указывает на то, что принимаются только целочисленные значения
    path('<int:pk>', PostDetail.as_view()),
+   path('create/', create_post, name='post_create')
 ]
