@@ -2,7 +2,7 @@
 # что в этом представлении мы будем выводить список объектов из БД
 from django.views.generic import ListView, DetailView, CreateView
 from datetime import datetime
-from django.shortcuts import render, redirect
+#from django.shortcuts import render, redirect
 
 from .forms import PostForm
 from .models import Post
@@ -47,16 +47,16 @@ class PostCreate(CreateView):
     model = Post
     template_name = 'post_edit.html'
 
-def create_post(request):
-    form = PostForm()
-
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        # Проверка на ошибки введёных данных
-        if form.is_valid():
-            form.save()
-            return redirect('/news/')
-
-    return render(request, 'post_edit.html',{'form': form})
+# def create_post(request):
+#     form = PostForm()
+#
+#     if request.method == 'POST':
+#         form = PostForm(request.POST)
+#         # Проверка на ошибки введёных данных
+#         if form.is_valid():
+#             form.save()
+#             return redirect('/news/')
+#
+#     return render(request, 'post_edit.html',{'form': form})
 
 
