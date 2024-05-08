@@ -1,11 +1,13 @@
 # Импортируем класс, который говорит нам о том,
 # что в этом представлении мы будем выводить список объектов из БД
-from django.views.generic import ListView, DetailView
-from .models import Product
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
 from datetime import datetime
-from .filters import ProductFilter
-from django.shortcuts import render, redirect
+#from django.shortcuts import render, redirect
+
 from .forms import ProductForm
+from .filters import ProductFilter
+from .models import Product
 
 
 class ProductsList(ListView):
@@ -57,14 +59,22 @@ class ProductDetail(DetailView):
     template_name = 'product.html'
     # Название объекта, в котором будет выбранный пользователем продукт
     context_object_name = 'product'
-    
-def create_product(request):
-    if request.method == 'POST':
-        form = ProductForm(request.POST)
-        # Проверка на ошибки введёных данных
-        if form.is_valid():
-            form.save()
-            return redirect('/products/')
 
-    form = ProductForm()
-    return render(request, 'product_edit.html',{'form': form})
+# Добавляем новое представление для создания товаров.
+class ProductCreate(CreateView):
+    # Указываем нашу разработанную форму
+    form_class = ProductForm
+    # модель товаров
+    model = Product
+    # и новый шаблон, в котором используется форма.
+    template_name = 'product_edit.html'
+# def create_product(request):
+#      if request.method == 'POST':
+#          form = ProductForm(request.POST)
+#          # Проверка на ошибки введёных данных
+#          if form.is_valid():
+#              form.save()
+#              return redirect('/products/')
+#
+#      form = ProductForm()
+#      return render(request, 'product_edit.html',{'form': form})

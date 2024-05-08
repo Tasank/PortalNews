@@ -1,11 +1,12 @@
 # Импортируем класс, который говорит нам о том,
 # что в этом представлении мы будем выводить список объектов из БД
-from django.views.generic import ListView, DetailView
-from .models import Post
+from django.views.generic import ListView, DetailView, CreateView
 from datetime import datetime
-from .filters import PostFilter
 from django.shortcuts import render, redirect
+
 from .forms import PostForm
+from .models import Post
+from .filters import PostFilter
 
 
 class PostList(ListView):
@@ -40,6 +41,11 @@ class PostDetail(DetailView):
     template_name = 'the_news.html'
     # Название объекта, в котором будет выбранный пользователем продукт
     context_object_name = 'the_news'
+
+class PostCreate(CreateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'post_edit.html'
 
 def create_post(request):
     form = PostForm()
