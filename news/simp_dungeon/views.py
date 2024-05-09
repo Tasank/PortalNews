@@ -1,6 +1,5 @@
-# Импортируем класс, который говорит нам о том,
-# что в этом представлении мы будем выводить список объектов из БД
-from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
 from datetime import datetime
 #from django.shortcuts import render, redirect
 
@@ -47,16 +46,12 @@ class PostCreate(CreateView):
     model = Post
     template_name = 'post_edit.html'
 
-# def create_post(request):
-#     form = PostForm()
-#
-#     if request.method == 'POST':
-#         form = PostForm(request.POST)
-#         # Проверка на ошибки введёных данных
-#         if form.is_valid():
-#             form.save()
-#             return redirect('/news/')
-#
-#     return render(request, 'post_edit.html',{'form': form})
+class PostUpdate(UpdateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'post_edit.html'
 
-
+class PostDelete(DeleteView):
+    model = Post
+    template_name = 'product_delete.html'
+    success_url = reverse_lazy('product_list')
