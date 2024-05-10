@@ -10,8 +10,13 @@ News
 
 <!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
 {% block content %}
+
 <h1> Новости</h1>
 <p>Количество новостей: {{ news|length }}</p>
+<form method="get">
+    {{ filterset.form.as_p }}
+    <button type="submit">Поиск</button>
+</form>
 {% if news %}
        <table> <!-- Начинаем описывать таблицу -->
            <tr> <!-- Добавляем строку -->
@@ -26,7 +31,7 @@ News
                <!-- Цензура названия и превью-->
                <td>{{ post.title|censor }}</td>
                <td>{{ post.post_time|date:"d/m/Y" }}</td>
-               <td>{{ product.text|truncatechars:20|censor }}</td>
+               <td>{{ post.text|truncatechars:20|censor }}</td>
            </tr>
            {% endfor %}
        </table> <!-- ... и таблицы -->

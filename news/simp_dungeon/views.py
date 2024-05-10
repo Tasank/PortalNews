@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
 from datetime import datetime
-#from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 
 from .forms import PostForm
 from .models import Post
@@ -9,17 +9,14 @@ from .filters import PostFilter
 
 
 class PostList(ListView):
-    # Указываем модель, объекты которой мы будем выводить
     model = Post
     # Поле, которое будет использоваться для сортировки объектов
     ordering = ['-post_time']
-    # Указываем имя шаблона, в котором будут все инструкции о том,
-    # как именно пользователю должны быть показаны наши объекты
     template_name = 'news.html'
     # Это имя списка, в котором будут лежать все объекты.
     # Его надо указать, чтобы обратиться к списку объектов в html-шаблоне.
     context_object_name = 'news'
-    paginate_by = 2
+    paginate_by = 10
     def get_queryset(self):
         queryset = super().get_queryset()
         self.filterset = PostFilter(self.request.GET, queryset)

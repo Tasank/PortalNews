@@ -12,9 +12,10 @@ urlpatterns = [
    # Для этого вызываем метод as_view.
     # pk — это первичный ключ товара, который будет выводиться у нас в шаблон
    # int — указывает на то, что принимаются только целочисленные значения
-   path('', PostList.as_view(), name='post_create'),
+   path('', PostList.as_view(), name='post_list'),
    path('<int:pk>', PostDetail.as_view(), name='post_detail'),
    path('create/', PostCreate.as_view(), name='post_create'),
    path('<int:pk>/update/', PostUpdate.as_view(), name='post_update'),
-   path('<int:pk>/delete/', PostDelete.as_view(), name='product_delete'),
+   path('<int:pk>/delete/', PostDelete.as_view(), name='post_delete'),
+   path('news/search', PostList.as_view(), name='news_search'),
 ]

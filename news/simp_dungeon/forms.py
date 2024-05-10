@@ -8,9 +8,8 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = [
             'title',
-            'type',
-            'category',
-            'text'
+            'author',
+            'post_time',
         ]
 
     def clean(self):
