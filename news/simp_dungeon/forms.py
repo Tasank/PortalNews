@@ -9,7 +9,7 @@ class PostForm(forms.ModelForm):
         fields = [
             'title',
             'author',
-            'post_time',
+
         ]
 
     def clean(self):
