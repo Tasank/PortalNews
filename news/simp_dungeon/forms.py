@@ -3,14 +3,17 @@ from django.core.exceptions import ValidationError
 
 from .models import Post
 
+from django import forms
+from .models import Post
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = [
-            'title',
-            'author',
+        fields = ['type', 'title', 'text', 'category', 'author']
+        widgets = {
+            'type': forms.HiddenInput(),  # Скрываем, так как значение будет устанавливаться автоматически
+        }
 
-        ]
 
     def clean(self):
 

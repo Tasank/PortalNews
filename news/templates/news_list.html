@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Список новостей
+{% endblock title %}
+
+{% block content %}
+<h1>Список новостей</h1>
+<hr>
+<ul>
+    {% for news in news %}
+        <li>{{ news.title }} - {{ news.text }}</li>
+        {% endfor %}
+</ul>
+{% endblock content %}

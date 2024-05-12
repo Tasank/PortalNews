@@ -1,6 +1,7 @@
 from django.urls import path
 # Импортируем созданное нами представление
-from .views import (PostList, PostDetail, PostCreate, PostUpdate, PostDelete)
+from .views import (PostList, PostDetail, NewsListView, ArticleListView, NewsCreate, NewsEdit, NewsDelete,
+                    ArticleCreate, ArticleEdit, ArticleDelete)
 
 
 urlpatterns = [
@@ -14,8 +15,16 @@ urlpatterns = [
    # int — указывает на то, что принимаются только целочисленные значения
    path('', PostList.as_view(), name='post_list'),
    path('<int:pk>', PostDetail.as_view(), name='post_detail'),
-   path('create/', PostCreate.as_view(), name='post_create'),
-   path('<int:pk>/update/', PostUpdate.as_view(), name='post_update'),
-   path('<int:pk>/delete/', PostDelete.as_view(), name='post_delete'),
+   path('news/', NewsListView.as_view(), name='news-list'),
+    path('articles/', ArticleListView.as_view(), name='article-list'),
+
+   path('create/', NewsCreate.as_view(), name='news_create'),
+   path('<int:pk>/edit/', NewsEdit.as_view(), name='news_edit'),
+   path('<int:pk>/delete/', NewsDelete.as_view(), name='news_delete'),
+
+   path('create/', ArticleCreate.as_view(), name='article_create'),
+   path('<int:pk>/edit/', ArticleEdit.as_view(), name='article_edit'),
+   path('<int:pk>/delete/', ArticleDelete.as_view(), name='article_delete'),
+
    path('news/search', PostList.as_view(), name='news_search'),
 ]

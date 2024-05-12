@@ -17,16 +17,19 @@ def censor(value):
         censored_words = Trie()
 
         file_path = os.path.join(os.path.dirname(__file__), 'censored_words.txt')
-        # 'r' означает на режим открытия файла
-        # Чтобы всё заработало нужно указать кодировку encoding='utf-8'
         with open(file_path, 'r', encoding='utf-8') as file:
             for word in file:
+                # Убедимся, что добавляем только строки без пробелов
                 censored_words[word.strip()] = True
+
+        # Применяем lemmatize и убираем пробелы для каждого слова в результате
         words = mystem.lemmatize(value)
+        words = [word.strip() for word in words if isinstance(word, str) and word.strip()]
+
         censored_text = []
-        # добавление в новый список цензурованного текста
         for word in words:
-            if word.strip() in censored_words:
+            # Проверяем, есть ли слово в списке цензурируемых, и заменяем его звездочками, если нужно
+            if word in censored_words:
                 censored_text.append('*' * len(word))
             else:
                 censored_text.append(word)
@@ -34,3 +37,4 @@ def censor(value):
         return ''.join(censored_text)
 
     return value
+
