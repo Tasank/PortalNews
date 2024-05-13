@@ -15,13 +15,15 @@ urlpatterns = [
    # int — указывает на то, что принимаются только целочисленные значения
    path('', PostList.as_view(), name='post_list'),
    path('<int:pk>', PostDetail.as_view(), name='post_detail'),
-   path('news/', NewsListView.as_view(), name='news-list'),
-    path('articles/', ArticleListView.as_view(), name='article-list'),
 
+   # Новости
+   path('news/', NewsListView.as_view(), name='news-list'),
    path('create/', NewsCreate.as_view(), name='news_create'),
    path('<int:pk>/edit/', NewsEdit.as_view(), name='news_edit'),
    path('<int:pk>/delete/', NewsDelete.as_view(), name='news_delete'),
 
+   #Статьи
+   path('articles/', ArticleListView.as_view(), name='article-list'),
    path('articles/create/', ArticleCreate.as_view(), name='article_create'),
    path('<int:pk>/edit/', ArticleEdit.as_view(), name='article_edit'),
    path('<int:pk>/delete/', ArticleDelete.as_view(), name='article_delete'),
