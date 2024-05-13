@@ -79,14 +79,29 @@ class NewsCreate(CreateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+    success_url = reverse_lazy('post_list')
 
     def get_initial(self):
         return {'type': 'NW'}
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        return super().form_valid(form)
 
 class NewsEdit(UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+    success_url = reverse_lazy('post_list')
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.type = 'NW'
+        return super().form_valid(form)
+
+    def get_queryset(self):
+        return super().get_queryset().filter(type='NW')  # Используйте 'AR' для ArticleEdit
+
 
 class NewsDelete(DeleteView):
     model = Post
@@ -99,18 +114,32 @@ class ArticleCreate(CreateView):
     model = Post
     form_class = PostForm
     template_name = 'post_edit.html'
+    success_url = reverse_lazy('post_list')
 
     def get_initial(self):
         return {'type': 'AR'}
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        return super().form_valid(form)
 
 
 class ArticleEdit(UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'post_edit.html'
+    success_url = reverse_lazy('post_list')
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.type = 'AR'
+        return super().form_valid(form)
+
+    def get_queryset(self):
+        return super().get_queryset().filter(type='AR')
 
 
 class ArticleDelete(DeleteView):
     model = Post
     template_name = 'post_delete.html'
-    success_url = reverse_lazy('article_list')
+    success_url = reverse_lazy('post_list')
