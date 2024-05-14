@@ -30,6 +30,14 @@ class PostList(ListView):
         context['next_sale'] = None
         return context
 
+class PostDetail(DetailView):
+    model = Post
+    template_name = 'the_news.html'
+    context_object_name = 'the_news'
+
+
+
+
 # Детализация новости
 class NewsDetail(DetailView):
     model = Post
@@ -40,21 +48,6 @@ class NewsDetail(DetailView):
         # Переопределение метода для фильтрации по типу 'NW'
         return get_object_or_404(Post, pk=self.kwargs.get('pk'), type='NW')
 
-# Детализация статьи
-class ArticleDetail(DetailView):
-    model = Post
-    template_name = 'article_detail.html'
-    context_object_name = 'article'
-
-    def get_object(self):
-        # Переопределение метода для фильтрации по типу 'AR'
-        return get_object_or_404(Post, pk=self.kwargs.get('pk'), type='AR')
-
-class PostDetail(DetailView):
-    model = Post
-    template_name = 'the_news.html'
-    context_object_name = 'the_news'
-
 # Представление для списка новостей
 class NewsListView(ListView):
     model = Post
@@ -64,16 +57,6 @@ class NewsListView(ListView):
     def get_queryset(self):
         # Фильтруем посты по типу 'NW' для новостей
         return Post.objects.filter(type='NW')
-
-# Представление для списка статей
-class ArticleListView(ListView):
-    model = Post
-    template_name = 'article_list.html'  # Указываем имя шаблона, который будет использоваться
-    context_object_name = 'articles'
-
-    def get_queryset(self):
-        # Фильтруем посты по типу 'AR' для статей
-        return Post.objects.filter(type='AR')
 
 class NewsCreate(CreateView):
     form_class = PostForm
@@ -100,7 +83,7 @@ class NewsEdit(UpdateView):
         return super().form_valid(form)
 
     def get_queryset(self):
-        return super().get_queryset().filter(type='NW')  # Используйте 'AR' для ArticleEdit
+        return super().get_queryset().filter(type='NW')
 
 
 class NewsDelete(DeleteView):
@@ -109,7 +92,29 @@ class NewsDelete(DeleteView):
     success_url = reverse_lazy('post_list')
 
 
-# Аналогичные классы для статей, но с другим начальным значением для 'type'
+
+# Детализация статьи
+class ArticleDetail(DetailView):
+    model = Post
+    template_name = 'article_detail.html'
+    context_object_name = 'article'
+
+    def get_object(self):
+        # Переопределение метода для фильтрации по типу 'AR'
+        return get_object_or_404(Post, pk=self.kwargs.get('pk'), type='AR')
+
+# Представление для списка статей
+class ArticleListView(ListView):
+    model = Post
+    template_name = 'article_list.html'  # Указываем имя шаблона, который будет использоваться
+    context_object_name = 'articles'
+
+    def get_queryset(self):
+        # Фильтруем посты по типу 'AR' для статей
+        return Post.objects.filter(type='AR')
+
+
+# Аналогичные классы для статей, но с другим значением для 'type'
 class ArticleCreate(CreateView):
     model = Post
     form_class = PostForm
