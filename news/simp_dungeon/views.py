@@ -1,8 +1,10 @@
 from django.urls import reverse_lazy
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
 from datetime import datetime
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render, redirect
+
 
 from .forms import PostForm
 from .models import Post
@@ -71,7 +73,7 @@ class NewsCreate(CreateView):
         post = form.save(commit=False)
         return super().form_valid(form)
 
-class NewsEdit(UpdateView):
+class NewsEdit(LoginRequiredMixin, UpdateView): # Добавление LoginRequiredMixin для проверки аунтификации
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
@@ -129,7 +131,7 @@ class ArticleCreate(CreateView):
         return super().form_valid(form)
 
 
-class ArticleEdit(UpdateView):
+class ArticleEdit(LoginRequiredMixin,UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'post_edit.html'
