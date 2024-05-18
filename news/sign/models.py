@@ -1,5 +1,9 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
+from allauth.account.forms import SignupForm
+from django.contrib.auth.models import Group
+
 from django import forms
 
 
@@ -17,4 +21,11 @@ class BaseRegisterForm(UserCreationForm):
                   "password1",
                   "password2", )
 
-#class BasicSignupForm(SignupForm):
+
+class BasicSignupForm(SignupForm):
+    def save(self, request):
+        user = super(BasicSignupForm, self).save(request)
+        basic_group = Group.objects.get(name='basic') # объект модели группы basic
+        basic_group.user_set.add(user) # user_set, возвращающий список всех пользователей этой группы, мы
+        # добавляем нового пользователя в эту группу.
+        return user

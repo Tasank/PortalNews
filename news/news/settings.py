@@ -176,3 +176,5 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+# Добавление в группу
+ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
