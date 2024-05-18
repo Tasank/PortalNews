@@ -23,4 +23,6 @@ urlpatterns = [
     # Делаем так, чтобы все адреса из нашего приложения (simp_dungeon/urls.py)
     # подключались к главному приложению с префиксом news/.
     path('news/', include('simp_dungeon.urls')),
+    path('sign/', include('sign.urls')),
+    path('accounts/', include('allauth.urls')),
 ]

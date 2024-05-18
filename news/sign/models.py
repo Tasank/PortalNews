@@ -16,3 +16,5 @@ class BaseRegisterForm(UserCreationForm):
                   "email",
                   "password1",
                   "password2", )
+
+#class BasicSignupForm(SignupForm):

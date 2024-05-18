@@ -6,3 +6,7 @@ class BaseRegisterView(CreateView):
     model = User
     form_class = BaseRegisterForm
     success_url = '/'
+
+#@login_required
+#def upgrade_me(request):
+#    user = request.user
