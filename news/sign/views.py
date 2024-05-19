@@ -14,7 +14,7 @@ class BaseRegisterView(CreateView):
 @login_required
 def upgrade_me(request):
     user = request.user # объект текущего пользователя из переменной запроса
-    premium_group = Group.objects.get(name='premium')
-    if not request.user.groups.filter(name='premium').exists(): #проверяем, находится ли пользователь в этой группе
+    premium_group = Group.objects.get(name='authors')
+    if not request.user.groups.filter(name='authors').exists(): #проверяем, находится ли пользователь в этой группе
         premium_group.user_set.add(user)
     return redirect('/')

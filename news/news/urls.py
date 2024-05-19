@@ -25,4 +25,5 @@ urlpatterns = [
     path('news/', include('simp_dungeon.urls')),
     path('sign/', include('sign.urls')),
     path('accounts/', include('allauth.urls')),
+    path('', include('protect.urls')),
 ]

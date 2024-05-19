@@ -25,7 +25,7 @@ class BaseRegisterForm(UserCreationForm):
 class BasicSignupForm(SignupForm):
     def save(self, request):
         user = super(BasicSignupForm, self).save(request)
-        basic_group = Group.objects.get(name='basic') # объект модели группы basic
+        basic_group = Group.objects.get(name='common') # объект модели группы basic
         basic_group.user_set.add(user) # user_set, возвращающий список всех пользователей этой группы, мы
         # добавляем нового пользователя в эту группу.
         return user
