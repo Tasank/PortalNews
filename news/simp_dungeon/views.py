@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
 from datetime import datetime
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from django.shortcuts import get_object_or_404
 
 
@@ -11,7 +11,7 @@ from .models import Post
 from .filters import PostFilter
 
 
-class PostList(ListView):
+class PostList(ListView, LoginRequiredMixin):
     model = Post
     # Поле, которое будет использоваться для сортировки объектов
     ordering = ['-post_time']
@@ -51,7 +51,7 @@ class NewsDetail(DetailView):
         return get_object_or_404(Post, pk=self.kwargs.get('pk'), type='NW')
 
 # Представление для списка новостей
-class NewsListView(ListView):
+class NewsListView(ListView, LoginRequiredMixin):
     model = Post
     template_name = 'news_list.html'  # Указываем имя шаблона, который будет использоваться
     context_object_name = 'news'
@@ -60,10 +60,11 @@ class NewsListView(ListView):
         # Фильтруем посты по типу 'NW' для новостей
         return Post.objects.filter(type='NW')
 
-class NewsCreate(CreateView):
+class NewsCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+    permission_required = ('simp_dungeon.add_post',)
     success_url = reverse_lazy('post_list')
 
     def get_initial(self):
@@ -73,10 +74,11 @@ class NewsCreate(CreateView):
         post = form.save(commit=False)
         return super().form_valid(form)
 
-class NewsEdit(LoginRequiredMixin, UpdateView): # Добавление LoginRequiredMixin для проверки аунтификации
+class NewsEdit(PermissionRequiredMixin, UpdateView): # Добавление LoginRequiredMixin для проверки аунтификации
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+    permission_required = ('simp_dungeon.change_post',)
     success_url = reverse_lazy('post_list')
 
     def form_valid(self, form):
@@ -106,7 +108,7 @@ class ArticleDetail(DetailView):
         return get_object_or_404(Post, pk=self.kwargs.get('pk'), type='AR')
 
 # Представление для списка статей
-class ArticleListView(ListView):
+class ArticleListView(ListView, LoginRequiredMixin):
     model = Post
     template_name = 'article_list.html'  # Указываем имя шаблона, который будет использоваться
     context_object_name = 'articles'
@@ -117,10 +119,11 @@ class ArticleListView(ListView):
 
 
 # Аналогичные классы для статей, но с другим значением для 'type'
-class ArticleCreate(CreateView):
+class ArticleCreate(PermissionRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'post_edit.html'
+    permission_required = ('simp_dungeon.add_post')
     success_url = reverse_lazy('post_list')
 
     def get_initial(self):
@@ -131,10 +134,11 @@ class ArticleCreate(CreateView):
         return super().form_valid(form)
 
 
-class ArticleEdit(LoginRequiredMixin,UpdateView):
+class ArticleEdit(PermissionRequiredMixin,UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'post_edit.html'
+    permission_required = ('simp_dungeon.change_post')
     success_url = reverse_lazy('post_list')
 
     def form_valid(self, form):
