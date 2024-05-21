@@ -1,0 +1,30 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+{% load custom_tags %}
+
+{% block title %}
+Новости & Статьи
+{% endblock title %}
+
+{% block content %}
+    {% if is_not_subscriber %}
+        <p class="text-center"><a href="{% url 'subscribe' category.id %}"><class="btn btn-secondary btn-small">Подписаться</a></p>
+    {% endif %}
+    <h1>Новости категории "{{ category }}"</h1>
+    {% for n in news %}
+        <div class="card my-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ n.heading }}</h5>
+                <p class="card-text">{{ n.text }}</p>
+                <small class="text-muted">{{ n.pub_date }}</small>
+                <br>
+                Категории:
+                {% for category in news.category.all %}
+                    <a href="{% url 'category_list' category.id %}">{{ category }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+
+
+{% endblock %}
