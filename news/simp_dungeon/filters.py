@@ -1,6 +1,8 @@
 from django_filters import FilterSet, DateFilter, CharFilter
 from .models import Post
 from django import forms
+
+
 class PostFilter(FilterSet):
     title = CharFilter(field_name='title', lookup_expr='icontains', label='Название')
     author = CharFilter(field_name='author__user__username', lookup_expr='icontains', label='Имя автора')
@@ -12,3 +14,4 @@ class PostFilter(FilterSet):
         fields = []
     # Пустой список fields используется, т.к. все фильтры определены вручную выше. Автоматическая генерация фильтров
     # не требуется.
+

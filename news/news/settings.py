@@ -2,7 +2,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-# сокрытие
+# Загрузка переменных из .енв
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i0emg)y)0%rau$rhtdlfg^v%cr2y9^g)*93cgs(8tq(a1v%64a'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -158,16 +158,40 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_PROVIDERS = {
     'yandex': {
         'APP': {
-            'client_id': 'd6e6ecd689774b709581d7f3ab594a81',
-            'secret': '52337a6c0f7e457ca8a3c6fda068eaa6',
+            'client_id': os.getenv('YANDEX_CLIENT_ID'),
+            'secret': os.getenv('YANDEX_SECRET'),
         }
     },
     'google': {
         'APP': {
-            'client_id': '123',
-            'secret': '123',
+            'client_id': os.getenv('GOOGLE_CLIENT_ID'),
+            'secret': os.getenv('GOOGLE_SECRET'),
         }
     }
 }
 # Добавление в группу
 ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
+
+# адрес сервера Яндекс-почты для всех один и тот же D.9
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+# ваше имя пользователя, например, если ваша почта user@yandex.ru, то сюда надо писать user,
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+# Яндекс использует ssl, включать его здесь обязательно
+EMAIL_USE_SSL = True
+
+
+ADMINS = [
+    ('Sanya', 'petrov@ya.ru'),  # список всех админов в формате ('имя', 'их почта')
+]
+
+MANAGERS = [
+    ('Ilya', 'vanin@dog.com')
+]
+
+SERVER_EMAIL = os.getenv('SERVER_EMAIL')  # это будет у нас вместо аргумента FROM в массовой рассылке
+
+#os.getenv('DEFAULT_FROM_EMAIL')
+# здесь указываем уже свою ПОЛНУЮ почту, с которой будут отправляться письма
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
