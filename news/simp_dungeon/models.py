@@ -29,6 +29,9 @@ class Category(models.Model):
     Title = models.CharField(max_length=125, unique=True)
     subscribers = models.ManyToManyField(User, blank=True, null=True, related_name='categories')
 
+    def __str__(self):
+        return self.Title
+
 class Post(models.Model):
     # Значения новость или статья
     article = "AR"

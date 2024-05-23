@@ -1,30 +1,54 @@
 {% extends 'flatpages/default.html' %}
+
 {% load custom_filters %}
-{% load custom_tags %}
 
 {% block title %}
-Новости & Статьи
+News
 {% endblock title %}
 
+
 {% block content %}
-    {% if is_not_subscriber %}
-        <p class="text-center"><a href="{% url 'subscribe' category.id %}"><class="btn btn-secondary btn-small">Подписаться</a></p>
-    {% endif %}
-    <h1>Новости категории "{{ category }}"</h1>
-    {% for n in news %}
-        <div class="card my-3">
-            <div class="card-body">
-                <h5 class="card-title">{{ n.heading }}</h5>
-                <p class="card-text">{{ n.text }}</p>
-                <small class="text-muted">{{ n.pub_date }}</small>
-                <br>
-                Категории:
-                {% for category in news.category.all %}
-                    <a href="{% url 'category_list' category.id %}">{{ category }}</a>
-                {% endfor %}
-            </div>
-        </div>
-    {% endfor %}
-
-
-{% endblock %}
+<!-- -->
+{% if is_not_subscriber %}
+    <p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm">Подписаться</a></p>
+{% endif %}
+<!-- -->
+{% is_not_author %}
+    <button><a href="{% url 'upgrade' %}">Стать автором</a></button>
+{% endif %}
+<!-- -->
+<h1> Новости</h1>
+<p>Количество новостей: {{ news|length }}</p>
+<form method="get">
+    {{ filterset.form.as_p }}
+    <button type="submit">Найти</button>
+</form>
+{% if news %}
+       <table>
+           <tr>
+               <td> Заголовок </td>
+               <td> Категории </td>
+               <td> Дата публикации </td>
+               <td> Превью </td>
+           </tr>
+           {% for post in category_news_list %}
+           <tr>
+               <td>
+                   <a href="{% url 'post_detail' post.id %}">{{ post.title|censor }}></a>
+                   <a href="{% url 'news_edit' post.id %}"><u>Редактировать</u></a>
+                   <a href="{% url 'news_delete' post.id %}"><u>Удалить</u></a>
+               </td>
+               <td>
+                   {% for category in post.category.all %}
+                       <a href="{% url 'category_list' category.id %}">{{ category }}</a>
+                   {% endfor %}
+               </td>
+               <td>{{ post.post_time|date:"d/m/Y" }}</td>
+               <td>{{ post.text|truncatechars:20|censor }}</td>
+           </tr>
+           {% endfor %}
+       </table>
+   {% else %}
+       <h2>Новостей нет!</h2>
+   {% endif %}
+{% endblock content %}
