@@ -169,8 +169,16 @@ class CategoryListView(PostList):
 
     def get_queryset(self):
         self.category = get_object_or_404(Category, id=self.kwargs['pk'])
-        queryset = Post.objects.filter(category=self.category)
+        queryset = Post.objects.filter(category=self.category).order_by('-created_at') # фильтр по дате создания
         return queryset
+
+    # Отписаться от
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Является ли пользователь подписчиком или нет
+        context['is_not_subscriber'] = self.request.user not in self.category.all()
+        context['category'] = self.category
+        return context
 
 
 
@@ -188,7 +196,7 @@ def subscribe_to_category(request, pk):
 
     return render(request, 'subscribe.html')
 
-
+# Подписаться может только зарегистрированный юзер
 @login_required
 def subscribe(request, pk):
     user = request.user
@@ -197,7 +205,7 @@ def subscribe(request, pk):
 
     # Отправка письма
     subject = 'Вы подписались на рассылку категории'
-    message = f'Вы подписались на рассылку категории "{category.name}"'
+    message = f'Вы подписались на рассылку категории "{category.Title}"'
     from_email = os.getenv('SENDER_EMAIL')
 
     send_mail(subject, message, from_email, [user.email])

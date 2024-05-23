@@ -27,6 +27,7 @@ class Author(models.Model):
 
 class Category(models.Model):
     Title = models.CharField(max_length=125, unique=True)
+    subscribers = models.ManyToManyField(User, blank=True, null=True, related_name='categories')
 
 class Post(models.Model):
     # Значения новость или статья

@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (PostList, PostDetail, NewsListView, ArticleListView, NewsCreate, NewsEdit, NewsDelete,
-                    ArticleCreate, ArticleEdit, ArticleDelete, subscribe)
+                    ArticleCreate, ArticleEdit, ArticleDelete, CategoryListView, subscribe)
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
@@ -26,5 +26,7 @@ urlpatterns = [
     path('<int:pk>/delete/', ArticleDelete.as_view(), name='article_delete'),
 
     path('news/search', PostList.as_view(), name='news_search'),
-    path('category/<int:pk>/subscribers', subscribe, name='subscribe'),
+
+    path('categories/<int:pk>', CategoryListView.as_view(), name='category_list'),
+    path('categories/<int:pk>/subscribe', subscribe, name='subscribe'),
 ]
