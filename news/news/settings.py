@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'news',
     'accounts',
     'fpages',
-    'simp_dungeon',
+    'simp_dungeon.apps.SimpDungeonConfig', # приложение с изменениями apps
     'django_filters',
     'sign',
     'protect',
