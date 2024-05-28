@@ -3,8 +3,8 @@ from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.template.loader import render_to_string
 
-from news.news import settings
-from news.simp_dungeon.models import PostCategory
+from django.conf import settings
+from .models import PostCategory
 
 # Отправка сообщений
 def send_notifications(preview, pk, title, subscribers):

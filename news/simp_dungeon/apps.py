@@ -7,4 +7,4 @@ class SimpDungeonConfig(AppConfig):
 
     # Чтобы изменения учитывались импортируем файл с сигналами
     def ready(self):
-        import signals
+        import simp_dungeon.signals
