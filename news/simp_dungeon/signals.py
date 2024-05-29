@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from django.template.loader import render_to_string
 
 from django.conf import settings
-from .models import PostCategory
+from .models import Category
 
 # Отправка сообщений
 def send_notifications(preview, pk, title, subscribers):
@@ -25,8 +25,8 @@ def send_notifications(preview, pk, title, subscribers):
     # Добавляем к сообщению наш шаблон
     msg.attach_alternative(html_content, 'text/html')
 
-@receiver(m2m_changed, sender=PostCategory)
-def notify_about_new_post(sender, instance, **kwargs):
+@receiver(m2m_changed, sender=Category)
+def notify_about_new_post(sender, instance, subscribers, **kwargs):
     if kwargs['action'] == 'post_add':
         categories = instance.category.all()
         subscribers_emails = []
