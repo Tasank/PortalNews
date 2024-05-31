@@ -3,6 +3,8 @@ from .views import (PostList, PostDetail, NewsListView, ArticleListView, NewsCre
                     ArticleCreate, ArticleEdit, ArticleDelete, CategoryListView, subscribe)
 from django.contrib.auth.decorators import login_required
 
+# app_name = 'NEWS'
+
 urlpatterns = [
     # path — означает путь.
     # Т.к. наше объявленное представление является классом,
