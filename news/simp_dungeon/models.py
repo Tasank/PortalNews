@@ -56,6 +56,9 @@ class Post(models.Model):
         self.rating -= 1
         self.save()
 
+    def get_absolute_url(self):
+        return f'/news/{self.id}'
+
     # Метод просмотр, который возвращает первые 124 символа текста статьи
     def preview(self):
         return f"{self.text[0:124]}..."
