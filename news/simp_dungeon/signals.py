@@ -3,6 +3,7 @@ from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.template.loader import render_to_string
 
+from email import message
 from django.conf import settings
 from .models import Category
 
@@ -24,6 +25,7 @@ def send_notifications(preview, pk, title, subscribers):
     )
     # Добавляем к сообщению наш шаблон
     msg.attach_alternative(html_content, 'text/html')
+    msg.send()
 
 @receiver(m2m_changed, sender=Category)
 def notify_about_new_post(sender, instance, subscribers, **kwargs):

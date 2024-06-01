@@ -154,7 +154,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none' # mandatory Хотим ли мы чтобы пользователь подтвердил почту
+ACCOUNT_EMAIL_VERIFICATION = ' mandatory' # mandatory Хотим ли мы чтобы пользователь подтвердил почту
 
 SOCIALACCOUNT_PROVIDERS = {
     'yandex': {
