@@ -9,7 +9,7 @@ from django.core.management.base import BaseCommand
 from django.template.loader import render_to_string
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
-from news.simp_dungeon.models import Category, Post
+from simp_dungeon.models import Category, Post
 
 
 logger = logging.getLogger(__name__)
