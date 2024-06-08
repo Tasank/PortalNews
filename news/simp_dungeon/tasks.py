@@ -1,34 +1,44 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from celery import shared_task
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from .models import News, Category
+from .models import Post, Category
 from .signals import send_notifications
-from NewsApp import settings
+from news import settings
 
 
 @shared_task
 def send_post_for_subscribers_celery(post_pk):
-    post = News.objects.get(id=post_pk)
+    post = Post.objects.select_related('category').get(id=post_pk)
     categories = post.category.all()
-    subscribers_all = []
+
+    subscribers_emails = set()
     for category in categories:
-        subscribers_all += category.subscribe.all()
-    subscribers_list = {}
-    for person in subscribers_all:
-        subscribers_list[person.username] = person.email
-    for n in subscribers_list.items():
-        send_notifications(n[0], post.title, post.text[:50], n[1], post.pk)
+        subscribers_emails.update(category.subscribe.values_list('email', flat=True))
+
+    send_notifications(
+        preview=post.text[:50],
+        pk=post.pk,
+        title=post.title,
+        subscribers=list(subscribers_emails)
+    )
 
 
 @shared_task
 def weekly_post():
-    today = datetime.datetime.now()
-    day_week_ago = today - datetime.timedelta(days=7)
-    posts = News.objects.filter(date_post__gte=day_week_ago)
-    categories = set(posts.values_list('category__name', flat=True))
-    subscribers = set(Category.objects.filter(name__in=categories).values_list('subscribe__email', flat=True))
+    today = datetime.now()
+    day_week_ago = today - timedelta(days=7)
 
+    # Получаем все посты за последнюю неделю
+    posts = Post.objects.filter(date_post__gte=day_week_ago)
+
+    # Получаем уникальные категории из этих постов
+    categories = posts.values_list('category__name', flat=True).distinct()
+
+    # Получаем уникальные email подписчиков этих категорий
+    subscribers = Category.objects.filter(name__in=categories).values_list('subscribe__email', flat=True).distinct()
+
+    # Подготовка контента для email
     html_content = render_to_string(
         'post_created_email.html',
         {
@@ -37,6 +47,7 @@ def weekly_post():
         }
     )
 
+    # Формирование и отправка email
     msg = EmailMultiAlternatives(
         subject='Новости за неделю',
         body='',
