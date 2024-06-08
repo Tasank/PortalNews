@@ -9,10 +9,11 @@ from news import settings
 
 @shared_task
 def send_post_for_subscribers_celery(post_pk):
-    post = Post.objects.select_related('category').get(id=post_pk)
+    post = Post.objects.select_related('category').get(id=post_pk) #  select_related для уменьшения количества запросов
+    # к базе данных: Это улучшит производительность запроса.
     categories = post.category.all()
 
-    subscribers_emails = set()
+    subscribers_emails = set() # Использование множества (set) для удаления дубликатов подписчиков.
     for category in categories:
         subscribers_emails.update(category.subscribe.values_list('email', flat=True))
 
