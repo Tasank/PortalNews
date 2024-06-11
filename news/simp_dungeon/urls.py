@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (PostList, PostDetail, NewsListView, ArticleListView, NewsCreate, NewsEdit, NewsDelete,
                     ArticleCreate, ArticleEdit, ArticleDelete, CategoryListView, subscribe)
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_page
 
 # app_name = 'NEWS'
 
@@ -12,8 +13,8 @@ urlpatterns = [
     # Для этого вызываем метод as_view.
     # pk — это первичный ключ новости, который будет выводиться у нас в шаблон
     # int — указывает на то, что принимаются только целочисленные значения
-    path('', PostList.as_view(), name='post_list'),
-    path('<int:pk>', PostDetail.as_view(), name='post_detail'),
+    path('', cache_page(60)(PostList.as_view()), name='post_list'),
+    path('<int:pk>', cache_page(300)(PostDetail.as_view()), name='post_detail'),
 
     # Новости
     path('news/', NewsListView.as_view(), name='news-list'),

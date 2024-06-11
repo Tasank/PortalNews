@@ -1,5 +1,6 @@
 {% extends 'flatpages/default.html' %}
 
+{% load cache %}
 {% load custom_filters %}
 
 {% block title %}
@@ -19,33 +20,35 @@ News
     <button type="submit">Найти</button>
 </form>
 {% if news %}
-       <table> <!-- Начинаем описывать таблицу -->
-           <tr> <!-- Добавляем строку -->
+        {% cache 300 "news_table" %}
+        <table> <!-- Начинаем описывать таблицу -->
+            <tr> <!-- Добавляем строку -->
                <!-- Добавляем ячейку в строку -->
-               <td> Заголовок </td>
-               <td> Категории </td>
-               <td> Дата публикации </td>
-               <td> Превью </td>
-           </tr> <!-- Не забываем закрыть HTML-тег строки -->
-           {% for post in news %}
-           <tr>
+                <td> Заголовок </td>
+                <td> Категории </td>
+                <td> Дата публикации </td>
+                <td> Превью </td>
+            </tr> <!-- Не забываем закрыть HTML-тег строки -->
+            {% for post in news %}
+            <tr>
                <!-- Цензура названия и превью-->
-               <td>
-                   <a href="{% url 'post_detail' post.id %}">{{ post.title|censor }}></a>
-                   <a href="{% url 'news_edit' post.id %}"><u>Редактировать</u></a>
-                   <a href="{% url 'news_delete' post.id %}"><u>Удалить</u></a>
-               </td>
-               <td>
-                   {% for category in post.category.all %}
+                <td>
+                    <a href="{% url 'post_detail' post.id %}">{{ post.title|censor }}></a>
+                    <a href="{% url 'news_edit' post.id %}"><u>Редактировать</u></a>
+                    <a href="{% url 'news_delete' post.id %}"><u>Удалить</u></a>
+                </td>
+                <td>
+                    {% for category in post.category.all %}
                        <a href="{% url 'category_list' category.id %}">{{ category }}</a>
-                   {% endfor %}
-               </td>
+                    {% endfor %}
+                </td>
                <!--<td>{{ post.title|censor }}</td>-->
-               <td>{{ post.post_time|date:"d/m/Y" }}</td>
-               <td>{{ post.text|truncatechars:20|censor }}</td>
-           </tr>
-           {% endfor %}
-       </table>
+                <td>{{ post.post_time|date:"d/m/Y" }}</td>
+                <td>{{ post.text|truncatechars:20|censor }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endcache %}
    {% else %}
        <h2>Новостей нет!</h2>
    {% endif %}

@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
 from datetime import datetime
 
-from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, render, redirect
 
 from django.contrib.auth.decorators import login_required
@@ -13,10 +13,14 @@ from .forms import PostForm
 from .models import Post, CategorySubscribe, Category
 from .filters import PostFilter
 
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 from django.core.mail import send_mail
 import os
 
+# Кэширование на главной странице на 1 минуту
+@method_decorator(cache_page(60), name='dispatch')
 class PostList(ListView, LoginRequiredMixin):
     model = Post
     # Поле, которое будет использоваться для сортировки объектов
@@ -38,6 +42,8 @@ class PostList(ListView, LoginRequiredMixin):
         context['next_sale'] = None
         return context
 
+# Кэширование на странице новостей на 5 минут
+@method_decorator(cache_page(300), name='dispatch')
 class PostDetail(DetailView):
     model = Post
     template_name = 'the_news.html'
