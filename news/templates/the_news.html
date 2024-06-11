@@ -1,15 +1,17 @@
 {% extends 'flatpages/default.html' %}
 {% load custom_filters %}
-
+{% load cache %}
 
 {% block title %}
 News
 {% endblock title %}
 
 {% block content %}
+{% cache 300 "the_news_cache" %}
 <h1><a href="{% url 'post_list' %}">Портал Новостей</a></h1>
 <!-- Цензура названия и текста-->
 <h1>{{ the_news.title|censor }}</h1>
 <p>{{ the_news.post_time|date:"d/m/Y" }}</p>
 <p>{{ the_news.text|censor }}</p>
+{% endcache %}
 {% endblock content %}

@@ -9,7 +9,7 @@
 
 {% block content %}
 <!-- Цензура названия и текста-->
-{% cache 300 "detail" %}
+{% cache 300 "detail_cache" %}
 <h1><a href="{% url 'post_list' %}">Портал Новостей</a></h1>
 <h1>{{ the_news.title|censor }}</h1>
 <p>{{ the_news.post_time|date:"d/m/Y" }}</p>

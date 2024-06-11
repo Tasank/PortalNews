@@ -1,10 +1,13 @@
 {% extends 'flatpages/default.html' %}
 
+{% load cache %}
+
 {% block title %}
 Список новостей
 {% endblock title %}
 
 {% block content %}
+{% cache 300 "news_list_cache" %}
 <h1>Список новостей</h1>
 <hr>
 <ul>
@@ -12,4 +15,5 @@
         <li>{{ news.title }} - {{ news.text }}</li>
         {% endfor %}
 </ul>
+{% endcache %}
 {% endblock content %}
