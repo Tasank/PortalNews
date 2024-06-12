@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.urls import reverse_lazy
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
 from datetime import datetime
@@ -42,6 +43,20 @@ class PostList(ListView, LoginRequiredMixin):
         context['next_sale'] = None
         return context
 
+    # Сохранение в кэш до тех по пока её не отредактируют
+    def get_object(self, *args, **kwargs):
+
+        obj = cache.get(f'post_list-{self.kwargs["pk"]}',
+                        None)  # кэш очень похож на словарь, и метод get действует так же. Он забирает значение по ключу, если его нет, то забирает None.
+
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post_list-{self.kwargs["pk"]}', obj)
+
+        return obj
+
 # Кэширование на странице новостей на 5 минут
 @method_decorator(cache_page(300), name='dispatch')
 class PostDetail(DetailView):
@@ -49,6 +64,15 @@ class PostDetail(DetailView):
     template_name = 'the_news.html'
     context_object_name = 'the_news'
 
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post_detail-{self.kwargs["pk"]}',
+                        None)
+
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post_detail-{self.kwargs["pk"]}', obj)
+
+        return obj
 
 
 
