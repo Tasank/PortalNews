@@ -10,6 +10,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'news.settings')
 django.setup()
 
 output_file = 'mydata.json'
-
+# Выгрузите только статьи и категории
 with open(output_file, 'w', encoding='utf-8') as file:
-    call_command('dumpdata', indent=4, stdout=file)
+    call_command('dumpdata', 'simp_dungeon.Post', 'simp_dungeon.Category', indent=4, stdout=file)
