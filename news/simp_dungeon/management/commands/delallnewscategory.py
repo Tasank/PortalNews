@@ -9,7 +9,7 @@ class Command(BaseCommand):
         parser.add_argument('category', type=str)
 
     def handle(self, *args, **options):
-        answer = input(f'Удалить все статьи в категории {options["category"]}? yes/no')
+        answer = input(f'Удалить все статьи в категории {options["category"]}? yes/no ')
 
         if answer != 'yes':
             self.stdout.write(self.style.ERROR('Отменено'))
