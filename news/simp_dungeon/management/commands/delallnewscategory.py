@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from news.simp_dungeon.models import Post, Category
+from simp_dungeon.models import Post, Category
 
 
 class Command(BaseCommand):
@@ -15,9 +15,9 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR('Отменено'))
             return
         try:
-            category = Category.objects.get(name=options['category'])
+            category = Category.objects.get(Title=options['category'])
             Post.objects.filter(category=category).delete()
             # в случае неправильного подтверждения говорим, что в доступе отказано
-            self.stdout.write(self.style.SUCCESS(f'Succesfully deleted all news from category {category.name}'))
+            self.stdout.write(self.style.SUCCESS(f'Succesfully deleted all news from category {category.Title}'))
         except Post.DoesNotExist:
-            self.stdout.write(self.style.ERROR(f'Could not find category {category.name}'))
+            self.stdout.write(self.style.ERROR(f'Could not find category {category.Title}'))
