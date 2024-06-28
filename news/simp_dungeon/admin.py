@@ -16,10 +16,18 @@ class PostAdmin(admin.ModelAdmin):
     actions = [reset_post_ratings] # добавляем действия в список
     form = GlassForm
 
+# Класс для представления авторов
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('user', 'rating')
+
+# Класс для представления комментариев
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'comment_time', 'rating')
+
 admin.site.register(Category)
 admin.site.register(Post, PostAdmin)
-admin.site.register(Comment)
-admin.site.register(Author)
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(Author, AuthorAdmin)
 
-# разрегистрируем наши товары
+# разрегистрируем наши комментарии
 # admin.site.unregister(Comment)
