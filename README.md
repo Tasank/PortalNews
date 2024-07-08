@@ -2,6 +2,13 @@
 
 PortalNews - это проект новостного портала, который позволяет публиковать новости и статьи, комментировать их и оценивать. Авторы могут создавать и редактировать контент, а пользователи имеют возможность оставлять комментарии и ставить оценки (нравится/не нравится).
 
+## Инструменты проекта
+![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat&logo=python&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat&logo=sqlite&logoColor=white)
+![Django](https://img.shields.io/badge/Django-5.0.6-green?style=flat&logo=django&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat&logo=redis&logoColor=white)
+
 ## Описание
 
 Проект "Портал Новостей" предоставляет все основные функции, необходимые для полноценного новостного сайта:
