@@ -28,3 +28,16 @@ def censor(value):
         return ' '.join(censored_text)
 
     return value
+
+# Другой вариант цензуры возвращает список слов где все кроме 1 и последней буквы заменены на *.
+# Для проекта нужно доработать!
+# @register.filter
+# def update_text(text):
+#     text = text.split()
+#     result = []
+#     for word in text:
+#         if word in forbidden_words:
+#             result.append(word[0] + '*' * (len(word)-2) + word[-1])
+#         else:
+#             result.append(word)
+#     return ' '.join(result)
