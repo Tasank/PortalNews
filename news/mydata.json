@@ -27,45 +27,6 @@
 },
 {
     "model": "admin.logentry",
-    "pk": 3,
-    "fields": {
-        "action_time": "2024-04-30T16:50:31.185Z",
-        "user": 6,
-        "content_type": 15,
-        "object_id": "4",
-        "object_repr": "Сука Блядь: пиздец",
-        "action_flag": 1,
-        "change_message": "[{\"added\": {}}]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 4,
-    "fields": {
-        "action_time": "2024-04-30T16:54:41.749Z",
-        "user": 6,
-        "content_type": 15,
-        "object_id": "4",
-        "object_repr": "Сука Блядь Мат: пиздец",
-        "action_flag": 2,
-        "change_message": "[{\"changed\": {\"fields\": [\"Title\"]}}]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 5,
-    "fields": {
-        "action_time": "2024-04-30T16:57:00.564Z",
-        "user": 6,
-        "content_type": 15,
-        "object_id": "4",
-        "object_repr": "Сука Блядь Мат: пиздец матово",
-        "action_flag": 2,
-        "change_message": "[{\"changed\": {\"fields\": [\"Text\"]}}]"
-    }
-},
-{
-    "model": "admin.logentry",
     "pk": 6,
     "fields": {
         "action_time": "2024-04-30T17:15:47.825Z",
@@ -77,58 +38,7 @@
         "change_message": "[{\"changed\": {\"fields\": [\"Title\", \"Text\"]}}]"
     }
 },
-{
-    "model": "admin.logentry",
-    "pk": 7,
-    "fields": {
-        "action_time": "2024-04-30T17:18:26.399Z",
-        "user": 6,
-        "content_type": 15,
-        "object_id": "4",
-        "object_repr": "Редиска: редисочная ферма и р",
-        "action_flag": 2,
-        "change_message": "[{\"changed\": {\"fields\": [\"Text\"]}}]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 8,
-    "fields": {
-        "action_time": "2024-04-30T17:18:44.281Z",
-        "user": 6,
-        "content_type": 15,
-        "object_id": "4",
-        "object_repr": "Редиска: редисочная ферма и р",
-        "action_flag": 2,
-        "change_message": "[{\"changed\": {\"fields\": [\"Text\"]}}]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 9,
-    "fields": {
-        "action_time": "2024-05-01T16:23:53.035Z",
-        "user": 6,
-        "content_type": 15,
-        "object_id": "4",
-        "object_repr": "Редиска: редисочная ферма и р",
-        "action_flag": 2,
-        "change_message": "[{\"changed\": {\"fields\": [\"Text\"]}}]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 10,
-    "fields": {
-        "action_time": "2024-05-12T14:04:45.287Z",
-        "user": 6,
-        "content_type": 15,
-        "object_id": "4",
-        "object_repr": "Редиска: редисочная ферма и р",
-        "action_flag": 2,
-        "change_message": "[{\"changed\": {\"fields\": [\"Text\"]}}]"
-    }
-},
+
 {
     "model": "admin.logentry",
     "pk": 11,
