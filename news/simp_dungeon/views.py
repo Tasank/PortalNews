@@ -1,24 +1,22 @@
-from django.core.cache import cache
-from django.urls import reverse_lazy
-from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
+import os
 from datetime import datetime
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import get_object_or_404, render, redirect
-
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
+from django.core.cache import cache
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+#from django.utils.translation import gettext as _
+from django.views.decorators.cache import cache_page
+from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
 
-
+from .filters import PostFilter
 from .forms import PostForm
 from .models import Post, CategorySubscribe, Category
-from .filters import PostFilter
 
-from django.views.decorators.cache import cache_page
-from django.utils.decorators import method_decorator
-
-from django.core.mail import send_mail
-import os
 
 # Кэширование на главной странице на 1 минуту
 @method_decorator(cache_page(60), name='dispatch')
